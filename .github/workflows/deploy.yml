@@ -1,4 +1,4 @@
-name: Deploy React app to GitHub Pages
+name: Deploy React apps to GitHub Pages
 
 on:
   push:
@@ -18,26 +18,52 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
-    defaults:
-      run:
-        working-directory: busan-food-react
-
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
 
-      - uses: actions/setup-node@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
         with:
           node-version: 20
 
-      - run: npm install
+      # 부산 맛집 프로젝트
+      - name: Install busan-food-react
+        working-directory: busan-food-react
+        run: npm install
 
-      - run: npm run build
+      - name: Build busan-food-react
+        working-directory: busan-food-react
+        run: npm run build
 
-      - uses: actions/configure-pages@v5
+      # 책쉼표 프로젝트
+      - name: Install 02_bookcomma
+        working-directory: 02_bookcomma
+        run: npm install
 
-      - uses: actions/upload-pages-artifact@v3
+      - name: Build 02_bookcomma
+        working-directory: 02_bookcomma
+        run: npm run build
+
+      # GitHub Pages에 올릴 폴더 구성
+      - name: Prepare Pages artifact
+        run: |
+          mkdir -p site
+
+          # 기존 부산 맛집 앱은 /React/ 에 유지
+          cp -r busan-food-react/dist/* site/
+
+          # 책쉼표는 /React/02_bookcomma/ 에 배치
+          mkdir -p site/02_bookcomma
+          cp -r 02_bookcomma/dist/* site/02_bookcomma/
+
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
         with:
-          path: busan-food-react/dist
+          path: site
 
   deploy:
     environment:
