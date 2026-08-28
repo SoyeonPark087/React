@@ -43,7 +43,7 @@ export default function DetailPage() {
         </div>
         <span className="region-label">{bookstore.shortRegion} {distance && `· 내 위치에서 ${distance}`}</span>
         <h1>{bookstore.name}</h1>
-        <p>{bookstore.description || '책과 커피를 함께 즐길 수 있는 서점입니다.'}</p>
+        <p>{bookstore.address}</p>
         <BookstoreBadges bookstore={bookstore} />
       </section>
 
