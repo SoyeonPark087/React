@@ -1,8 +1,8 @@
 {
-  "name": "vueon-react-cra",
+  "name": "VUEON-React",
   "version": "1.0.0",
   "private": true,
-  "homepage": "https://soyeonpark087.github.io/React/vueon-react",
+  "homepage": "https://soyeonpark087.github.io/React/VUEON-React",
   "dependencies": {
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
