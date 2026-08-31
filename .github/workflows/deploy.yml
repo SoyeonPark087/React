@@ -73,6 +73,17 @@ jobs:
     runs-on: ubuntu-latest
     needs: build
 
+    # VUEON 프로젝트
+- name: Install VUEON-React
+  working-directory: VUEON-React
+  run: npm install
+
+- name: Build VUEON-React
+  working-directory: VUEON-React
+  run: npm run build
+  env:
+    REACT_APP_TMDB_API_KEY: ${{ secrets.REACT_APP_TMDB_API_KEY }}
+
     steps:
       - name: Deploy
         id: deployment
