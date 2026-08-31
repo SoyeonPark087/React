@@ -57,13 +57,18 @@ jobs:
           mkdir -p site/02_bookcomma
           cp -r 02_bookcomma/dist/* site/02_bookcomma/
 
-      - name: Configure Pages
-        uses: actions/configure-pages@v5
-
-      - name: Upload Pages artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: site
+          # VUEON은 /React/VUEON-React/ 에 배치
+          mkdir -p site/VUEON-React
+          cp -r VUEON-React/build/* site/VUEON-React/
+          
+          
+ - name: Configure Pages
+ uses: actions/configure-pages@v5
+          
+- name: Upload Pages artifact
+uses: actions/upload-pages-artifact@v3
+ with:
+path: site
 
   deploy:
     environment:
