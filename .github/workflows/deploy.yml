@@ -27,7 +27,7 @@ jobs:
         with:
           node-version: 20
 
-      # 부산 맛집 프로젝트
+      # 부산 맛집
       - name: Install busan-food-react
         working-directory: busan-food-react
         run: npm install
@@ -36,7 +36,7 @@ jobs:
         working-directory: busan-food-react
         run: npm run build
 
-      # 책쉼표 프로젝트
+      # 책쉼표
       - name: Install 02_bookcomma
         working-directory: 02_bookcomma
         run: npm install
@@ -45,30 +45,37 @@ jobs:
         working-directory: 02_bookcomma
         run: npm run build
 
-      # GitHub Pages에 올릴 폴더 구성
+      # VUEON
+      - name: Install VUEON-React
+        working-directory: VUEON-React
+        run: npm install
+
+      - name: Build VUEON-React
+        working-directory: VUEON-React
+        run: npm run build
+        env:
+          REACT_APP_TMDB_API_KEY: ${{ secrets.REACT_APP_TMDB_API_KEY }}
+
+      # 배포 폴더 구성
       - name: Prepare Pages artifact
         run: |
           mkdir -p site
 
-          # 기존 부산 맛집 앱은 /React/ 에 유지
           cp -r busan-food-react/dist/* site/
 
-          # 책쉼표는 /React/02_bookcomma/ 에 배치
           mkdir -p site/02_bookcomma
           cp -r 02_bookcomma/dist/* site/02_bookcomma/
 
-          # VUEON은 /React/VUEON-React/ 에 배치
           mkdir -p site/VUEON-React
           cp -r VUEON-React/build/* site/VUEON-React/
-          
-          
- - name: Configure Pages
- uses: actions/configure-pages@v5
-          
-- name: Upload Pages artifact
-uses: actions/upload-pages-artifact@v3
- with:
-path: site
+
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
 
   deploy:
     environment:
@@ -77,17 +84,6 @@ path: site
 
     runs-on: ubuntu-latest
     needs: build
-
-    # VUEON 프로젝트
-- name: Install VUEON-React
-  working-directory: VUEON-React
-  run: npm install
-
-- name: Build VUEON-React
-  working-directory: VUEON-React
-  run: npm run build
-  env:
-    REACT_APP_TMDB_API_KEY: ${{ secrets.REACT_APP_TMDB_API_KEY }}
 
     steps:
       - name: Deploy
